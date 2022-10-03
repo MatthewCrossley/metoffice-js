@@ -18,7 +18,7 @@ export async function getLocations(){
     let locations = getCache("locations")
     if (locations === false){
         locations = await getURL({request: "sitelist"})
-        setCache("locations", locations)
+        setCache("locations", locations, 5)
     }
     return locations["Locations"]["Location"]
 }

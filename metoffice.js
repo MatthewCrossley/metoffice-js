@@ -1,5 +1,6 @@
 import fs from "fs"
 import got from "got"
+import { getCache, setCache } from "./cache.js"
 
 function getApiKey(){
     return JSON.parse(fs.readFileSync("./secret.json", {encoding: "utf8", flag: "r"}))["api_key"]
@@ -14,7 +15,11 @@ async function getURL({operation="wxfcs", format="json", request=""}){
 }
 
 export async function getLocations(){
-    const locations = await getURL({request: "sitelist"})
+    let locations = getCache("locations")
+    if (locations === false){
+        locations = await getURL({request: "sitelist"})
+        setCache("locations", locations)
+    }
     return locations["Locations"]["Location"]
 }
 

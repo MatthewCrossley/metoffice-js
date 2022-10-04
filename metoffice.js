@@ -6,10 +6,10 @@ function getApiKey(){
     return JSON.parse(fs.readFileSync("./secret.json", {encoding: "utf8", flag: "r"}))["api_key"]
 }
 
-async function getURL({operation="wxfcs", format="json", request=""}){
+async function getURL({operation="wxfcs", format="json", request="", params=[]}){
     const url = (
         "http://datapoint.metoffice.gov.uk/public/data/val/"
-        + `${operation}/all/${format}/${request}?key=${getApiKey()}`
+        + `${operation}/all/${format}/${request}?key=${getApiKey()}&${params.join("&")}`
     )
     return await got(url).json()  // this assumes format is json
 }
@@ -42,4 +42,15 @@ export async function searchLocations(searchTerm){
     }
 
     return possibleResult
+}
+
+export async function getForecast(locationId){
+    let forecastCache = getCache("forecast")
+    if (forecastCache !== false && locationId in forecastCache){
+        var forecast = forecastCache[locationId]
+    } else {
+        var forecast = await getURL({request: locationId, params:["res=3hourly"]})
+        setCache("forecast", {locationId: forecast}, 3600)
+    }
+    return forecast
 }

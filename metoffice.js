@@ -50,7 +50,9 @@ export async function getForecast(locationId){
         var forecast = forecastCache[locationId]
     } else {
         var forecast = await getURL({request: locationId, params:["res=3hourly"]})
-        setCache("forecast", {locationId: forecast}, 3600)
+        let cacheEntry = new Object()
+        cacheEntry[locationId] = forecast
+        setCache("forecast", cacheEntry, 3600)
     }
     return forecast
 }

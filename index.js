@@ -1,12 +1,12 @@
-import { searchLocations } from "./metoffice.js"
+import { getForecast, parseForecast, searchLocations } from "./metoffice.js"
 
 async function main(){
-    const args = process.argv.splice(2)
+    const searchLocation = process.argv.splice(2).join("")
+    const location = await searchLocations(searchLocation)
 
-    if (args[0] === "location"){
-        const location = await searchLocations(args.splice(1).join(""))
-        console.log(location)
-    }
+    const forecast = await getForecast(location["id"])
+
+    console.log(parseForecast(forecast))
 }
 
 await main()

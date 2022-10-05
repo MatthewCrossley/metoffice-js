@@ -56,3 +56,22 @@ export async function getForecast(locationId){
     }
     return forecast
 }
+
+export function parseForecast(fc){
+    let result = {}
+
+    for (let day of fc["SiteRep"]["DV"]["Location"]["Period"]){
+        let key = day["value"]
+        let weather = day["Rep"][0]
+
+        let value = {
+            "temp": weather["T"],
+            "feels_like": weather["F"],
+            "wind_speed": weather["S"],
+            "precipitation_chance": weather["Pp"]
+        }
+        result[key] = value
+
+    }
+    return result
+}

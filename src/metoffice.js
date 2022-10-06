@@ -6,12 +6,13 @@ function getApiKey(){
     return JSON.parse(fs.readFileSync("./secret.json", {encoding: "utf8", flag: "r"}))["api_key"]
 }
 
-async function getURL({operation="wxfcs", format="json", request="", params=[]}){
+function getURL({operation="wxfcs", format="json", request="", params=[]}){
     const url = (
         "http://datapoint.metoffice.gov.uk/public/data/val/"
         + `${operation}/all/${format}/${request}?key=${getApiKey()}&${params.join("&")}`
     )
-    return await got(url).json()  // this assumes format is json
+    console.log(url)
+    return got(url).json()  // this assumes format is json
 }
 
 export async function getLocations(){

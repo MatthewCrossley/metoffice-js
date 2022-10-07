@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Weather forecast</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="forecast.js"></script>
+  </head>
+  <body>
+    <h1>MET Office Weather Forecast</h1>
+    <form action="javascript:void(0)" onsubmit="getForLocation();">
+        Location:<br>
+        <input type="text" name="location">
+        <input type="submit" value="Submit">
+    </form>
+    <div id="results">
+        <p>Enter a search term</p>
+    </div>
+  </body>
+</html>

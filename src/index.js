@@ -13,6 +13,8 @@ function main(){
     const app = express()
     const port = 3000
 
+    app.use(express.static("frontend"))
+
     app.get('/forecast', async (req, res) => {
         const location = req.query["location"]
         if (location === undefined){

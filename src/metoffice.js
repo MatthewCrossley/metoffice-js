@@ -63,16 +63,20 @@ export function parseForecast(fc){
 
     for (let day of fc["SiteRep"]["DV"]["Location"]["Period"]){
         let key = day["value"]
-        let weather = day["Rep"][0]
+        let chunks = []
 
-        let value = {
-            "temp": weather["T"],
-            "feels_like": weather["F"],
-            "wind_speed": weather["S"],
-            "precipitation_chance": weather["Pp"]
+        for (let chunk of day["Rep"]){
+            chunks.push({
+                "temp": chunk["T"],
+                "feels_like": chunk["F"],
+                "wind_speed": chunk["S"],
+                "gusts": chunk["G"],
+                "precipitation_chance": chunk["Pp"],
+                "time": chunk["$"]
+            })
         }
-        result[key] = value
 
+        result[key] = chunks
     }
     return result
 }
